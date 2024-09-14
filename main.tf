@@ -98,7 +98,7 @@ resource "aws_instance" "webserver2" {
 
 #create ALB
 
-resource "aws_alb" "myalb" {
+resource "aws_lb" "myalb" {
   name = "myalb"
   internal = false
   load_balancer_type = "application"
@@ -135,12 +135,12 @@ resource "aws_lb_target_group_attachment" "attach2" {
 }
 
 resource "aws_lb_listener" "listener" {
-  load_balancer_arn = "aws_lb.myalb.arn"
+  load_balancer_arn = aws_lb.myalb.arn
   port              = 80
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = "aws_lb_target_group.tg.arn"
+    target_group_arn = aws_lb_target_group.tg.arn
     type             = "forward"
   }
 }
